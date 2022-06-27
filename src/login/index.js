@@ -8,17 +8,17 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const login = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, pass)
       .then(() => {
-        window.alert("Login realizado com sucesso");
         ReactDOM.render(<Home />, document.getElementById("root"));
       })
       .catch((error) => {
-        setErrorMessage(error.code);
+        setErrorMessage(error.message);
       })
       .finally(() => {
         setEmail("");
@@ -32,11 +32,11 @@ export default function Login() {
       .auth()
       .createUserWithEmailAndPassword(email, pass)
       .then(() => {
-        window.alert("Cadastro realizado com sucesso");
+        setSuccessMessage("Successfully registered.");
         errorMessage("");
       })
       .catch((error) => {
-        setErrorMessage(error.code);
+        setErrorMessage(error.message);
       })
       .finally(() => {
         setEmail("");
@@ -55,9 +55,8 @@ export default function Login() {
   return (
     <div class="grid grid-cols-1 gap-0">
       <div className="container py-4 justify-center flex">
-
         <div className="w-full max-w-lg py-4">
-        <h1 className="text-2xl	text-center	py-4">Login to continue</h1>
+          <h1 className="text-2xl	text-center	py-4">Login to continue</h1>
 
           <form className="bg-white shadow-md px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
@@ -71,7 +70,7 @@ export default function Login() {
                 className="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 type="email"
-                placeholder="Informe seu email"
+                placeholder="Type your e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -92,9 +91,17 @@ export default function Login() {
                 onChange={(e) => setPass(e.target.value)}
               />
             </div>
-            <div className="mb-6 text-center">
-              <span className="text-red-700 text-base">{errorMessage}</span>
-            </div>
+            {errorMessage && (
+              <div className="mb-6 text-center">
+                <span className="text-red-700 text-base font-bold">{errorMessage}</span>
+              </div>
+            )}
+            {successMessage && (
+              <div className="mb-6 text-center">
+                <span className="text-green-700 text-base font-bold">{successMessage}</span>
+              </div>
+            )}
+
             <div className="flex items-center justify-center">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-40 mx-1"
