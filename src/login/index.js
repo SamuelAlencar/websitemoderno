@@ -18,6 +18,7 @@ export default function Login() {
         ReactDOM.render(<Home />, document.getElementById("root"));
       })
       .catch((error) => {
+        setSuccessMessage("");
         setErrorMessage(error.message);
       })
       .finally(() => {
@@ -33,9 +34,10 @@ export default function Login() {
       .createUserWithEmailAndPassword(email, pass)
       .then(() => {
         setSuccessMessage("Successfully registered.");
-        errorMessage("");
+        setErrorMessage("");
       })
       .catch((error) => {
+        setSuccessMessage("");
         setErrorMessage(error.message);
       })
       .finally(() => {
@@ -53,7 +55,7 @@ export default function Login() {
   };
 
   return (
-    <div class="grid grid-cols-1 gap-0">
+    <div className="grid grid-cols-1 gap-0">
       <div className="container py-4 justify-center flex">
         <div className="w-full max-w-lg py-4">
           <h1 className="text-2xl	text-center	py-4">Login to continue</h1>
@@ -96,7 +98,7 @@ export default function Login() {
                 <span className="text-red-700 text-base font-bold">{errorMessage}</span>
               </div>
             )}
-            {successMessage && (
+            {successMessage &&(
               <div className="mb-6 text-center">
                 <span className="text-green-700 text-base font-bold">{successMessage}</span>
               </div>
